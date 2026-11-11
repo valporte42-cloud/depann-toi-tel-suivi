@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Aperçu public de Dépann’toi Tél, prototype CIVIA de diagnostic de smartphones en lecture seule.">
+  <meta name="theme-color" content="#0b1826">
+  <title>Dépann’toi Tél — Diagnostic CIVIA</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand"><span class="logo-mark">D<span>.</span></span><div><strong>DÉPANN’TOI</strong><small>TÉL · CIVIA</small></div></div>
+      <div class="nav-section">ATELIER</div>
+      <nav aria-label="Navigation principale">
+        <button type="button" class="nav-btn active" data-view="dashboard"><span class="nav-icon">▤</span> Vue d’ensemble</button>
+        <button type="button" class="nav-btn" data-view="diagnostic"><span class="nav-icon">◎</span> Diagnostic USB</button>
+        <button type="button" class="nav-btn" data-view="cases"><span class="nav-icon">≡</span> Dossiers et suivi</button>
+        <button type="button" class="nav-btn" data-view="firmware"><span class="nav-icon">◇</span> Atelier firmware</button>
+        <button type="button" class="nav-btn" data-view="method"><span class="nav-icon">▧</span> Méthode & sécurité</button>
+      </nav>
+      <div class="side-bottom">
+        <div class="safety"><span class="green-dot"></span><div><strong>Mode non destructif</strong><small>Aucune écriture système / Odin</small></div></div>
+        <small>Prototype local · Version 0.1.0</small>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar"><div class="crumb">CIVIA <span>/</span> Maintenance smartphones</div><div class="top-state"><span class="green-dot"></span> Consultation en ligne · lecture seule <button id="refreshBtn" class="refresh-button" type="button" title="Actualiser la version affichée (F5)">Actualiser · F5 ↻</button></div></header>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+      <div class="preview-banner">VERSION PARTAGÉE POUR LE SUIVI DU PROJET · Consultation uniquement · Aucun accès au PC Maître ni aux téléphones.</div>
+      <section id="view-dashboard" class="view active" aria-labelledby="head-dash">
+        <div class="eyebrow">CENTRE DE DIAGNOSTIC NUMÉRIQUE</div>
+        <div class="hero">
+          <div><h1 id="head-dash">La valise de diagnostic<br>pour votre téléphone<span class="punct">.</span></h1>
+            <p>Identifier, comprendre, intervenir avec méthode. Chaque opération conserve ses preuves et ses contrôles de réception.</p>
+            <button class="btn btn-primary" data-go="diagnostic">Commencer un diagnostic <span>→</span></button>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="phone-frame"><div class="phone-notch"></div><div class="phone-wave">◉</div><div class="phone-line"></div><div class="phone-line short"></div><span class="phone-ok">USB / ADB</span></div>
+            <div class="hero-caption">DIAGNOSTIC<br>EN LECTURE SEULE</div>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat"><span>Cas historiques</span><strong id="statCases">—</strong><small>Références locales</small></div>
+          <div class="stat"><span>Outil de diagnostic ADB</span><strong id="statADB">—</strong><small>Source PC Maître</small></div>
+          <div class="stat"><span>Mode d’intervention</span><strong>SAFE</strong><small>Aucun flash automatique</small></div>
+        </div>
+        <div class="section-title"><h2>Premier cas de référence</h2><button class="text-btn" data-go="cases">Ouvrir le dossier <span>→</span></button></div>
+        <div class="case-spotlight">
+          <div class="case-avatar">S23</div><div class="grow">
+            <div class="mini-eyebrow">CAS-001 / 11 NOVEMBRE 2026</div><h3>Samsung Galaxy S23 FE — SM-S711U1</h3>
+            <p>Échec des mises à jour OTA. Réinstallation du firmware officiel par Odin. Preuve PASS conservée sur D:.</p>
+          </div><span class="status status-warn">Réception à finaliser</span>
+        </div>
+        <div class="info-strip"><strong>Principe de preuve</strong><span>Un firmware installé avec succès ne certifie pas à lui seul les appels, la caméra, le Wi-Fi ou les mises à jour.</span></div>
+      </section>
+      <section id="view-diagnostic" class="view" aria-labelledby="head-diagnostic">
+        <div class="eyebrow">01 / ANALYSE MATÉRIELLE & LOGICIELLE</div>
+        <div class="page-intro"><div><h1 id="head-diagnostic">Diagnostic USB & ADB</h1><p>Branchez votre appareil avec un câble USB de données. La sonde ne modifie ni les fichiers ni le micrologiciel.</p></div>
+          <button id="scanBtn" class="btn btn-primary">Voir une démonstration <span>↻</span></button></div>
+        <div class="steps"><span class="step-on">1. Connexion</span><span>2. Identification</span><span>3. Mesures</span><span>4. Rapport</span></div>
+        <div class="two-cols">
+          <article class="panel"><div class="panel-head"><h2>Appareils détectés</h2><span id="scanWhen" class="micro">En attente</span></div><div id="deviceList" class="empty">Lancer la détection pour identifier les téléphones connectés.</div></article>
+          <article class="panel"><div class="panel-head"><h2>Interfaces Windows</h2><span class="pill-neutral">USB / MTP / ADB</span></div><div id="usbList" class="empty">Aucun inventaire réalisé.</div></article>
+        </div>
+        <div id="diagnosticResult" class="panel extra-space"><div class="panel-head"><h2>Mesures et recommandations</h2><span class="pill-neutral">En lecture seule</span></div><div class="empty">Sélectionnez un appareil ADB autorisé pour lire son état.</div></div>
+        <div class="hint"><strong>Autorisation nécessaire :</strong> lorsque Android affiche « Autoriser le débogage USB », validez sur le téléphone lui-même. Aucune mesure ne contourne cette confirmation.</div>
+      </section>
+      <section id="view-cases" class="view" aria-labelledby="head-cases">
+        <div class="eyebrow">02 / TRAÇABILITÉ</div>
+        <div class="page-intro"><div><h1 id="head-cases">Dossiers d’intervention</h1><p>Suivez les preuves, les résultats techniques et les essais fonctionnels, sans mélanger plusieurs modèles.</p></div>
+          <button id="createCaseBtn" class="btn btn-dark" type="button" disabled title="Création réservée à la version interne">Création locale uniquement</button></div>
+        <div class="case-layout">
+          <div class="panel case-sidebar"><div class="panel-head"><h2>Archives locales</h2></div><div id="caseList" class="case-list">Chargement des dossiers…</div></div>
+          <div id="caseDetails" class="panel case-details"><div class="empty">Sélectionnez un dossier.</div></div>
+        </div>
+      </section>
+      <section id="view-firmware" class="view" aria-labelledby="head-firmware">
+        <div class="eyebrow">03 / COMPATIBILITÉ & PRÉVENTION</div>
+        <div class="page-intro"><div><h1 id="head-firmware">Atelier firmware Samsung</h1><p>Contrôle documentaire de compatibilité. Aucun pilote de flash ou bouton « Start » dans ce prototype.</p></div><span class="status status-warn">Écriture désactivée</span></div>
+        <div class="two-cols">
+          <article class="panel"><div class="panel-head"><h2>Vérifier une référence</h2></div>
+            <form id="firmwareForm" class="form" autocomplete="off">
+              <label>Modèle exact <input name="model" placeholder="SM-S711U1" value="SM-S711U1" required maxlength="40"></label>
+              <label>Version de firmware <input name="build" placeholder="S711U1UES8FZJ7" value="S711U1UES8FZJ7" required maxlength="70"></label>
+              <label>CSC actif <input name="csc" placeholder="XAA" value="XAA" required maxlength="12"></label>
+              <button type="submit" class="btn btn-dark">Comparer au cas vérifié</button>
+            </form><div id="firmwareResult" class="result-inline"></div>
+          </article>
+          <article class="panel"><div class="panel-head"><h2>Cas documenté</h2><span class="pill-neutral">Référence 001</span></div>
+            <dl class="definition"><dt>Appareil</dt><dd>Samsung Galaxy S23 FE américain</dd><dt>Modèle</dt><dd><code>SM-S711U1</code></dd>
+              <dt>Firmware</dt><dd><code>S711U1UES8FZJ7</code></dd><dt>CSC package</dt><dd><code>S711U1OYM8FZJ7</code></dd>
+              <dt>Bootloader</dt><dd>6 → 8 (anti-retour)</dd><dt>Preuve</dt><dd>Odin 3.14.4 — PASS</dd>
+              <dt>Effacement</dt><dd>Oui, CSC standard</dd></dl>
+          </article>
+        </div>
+        <div class="panel extra-space"><div class="panel-head"><h2>Barrières indispensables avant une opération réelle</h2></div>
+          <div class="guard-grid"><div><b>01</b><strong>Identité précise</strong><span>Référence matérielle et variante constructeur.</span></div><div><b>02</b><strong>Archivage sécurisé</strong><span>Sauvegarde vérifiée avant toute suppression.</span></div>
+            <div><b>03</b><strong>Firmware contrôlé</strong><span>Source, CSC, bootloader, MD5/SHA et archives.</span></div><div><b>04</b><strong>Validation humaine</strong><span>Consentement explicite, avertissement sur l’effacement.</span></div></div>
+        </div>
+      </section>
+      <section id="view-method" class="view" aria-labelledby="head-method">
+        <div class="eyebrow">04 / PROCÉDURE QUALITÉ</div><h1 id="head-method">Méthode de réparation contrôlée</h1>
+        <p class="lead">Chaque résultat possède une origine et un statut. Une valeur absente n'est jamais transformée en preuve de fonctionnement.</p>
+        <div class="method-grid">
+          <div class="method-card"><span>01</span><h3>Identifier</h3><p>Détecter le modèle exact sans déduire la variante à partir du seul nom commercial.</p></div>
+          <div class="method-card"><span>02</span><h3>Mesurer</h3><p>Relever seulement les informations diagnostiques accessibles avec autorisation.</p></div>
+          <div class="method-card"><span>03</span><h3>Comparer</h3><p>Rapprocher les symptômes de procédures documentées et de risques réels.</p></div>
+          <div class="method-card"><span>04</span><h3>Préserver</h3><p>Vérifier les sauvegardes, informer du risque de perte, recueillir l'accord.</p></div>
+          <div class="method-card"><span>05</span><h3>Intervenir</h3><p>Suivre les procédures validées. Pas de contournement FRP, MDM ou verrouillage.</p></div>
+          <div class="method-card"><span>06</span><h3>Recevoir</h3><p>Contrôler fonctions radio, capteurs, charge, mises à jour et documenter les écarts.</p></div>
+        </div>
+        <div class="info-strip"><strong>Confidentialité</strong><span>Aucune télémétrie vers un serveur externe. Les rapports locaux n'enregistrent pas les numéros de série ou les IMEI complets.</span></div>
+      </section>
+      <footer>© CIVIA — Aperçu public de démonstration · Sans accès aux appareils ni aux données privées</footer>
+    </main>
+  </div>
+  <dialog id="caseDialog"><form id="caseForm" class="form dialog-form" autocomplete="off">
+    <h2>Ouvrir un dossier</h2><p>Ne saisissez pas de données personnelles inutiles.</p>
+    <label>Intitulé <input name="title" maxlength="80" placeholder="Samsung A35 — diagnostic stockage" required></label>
+    <label>Modèle exact <input name="model" maxlength="60" placeholder="SM-A356B" required></label>
+    <label>Symptôme constaté <textarea name="symptom" rows="3" maxlength="1200" placeholder="Décrivez le problème initial"></textarea></label>
+    <div class="actions"><button type="button" id="cancelCase" class="btn btn-light">Annuler</button><button type="submit" class="btn btn-primary">Créer la fiche</button></div>
+  </form></dialog>
+</body>
+</html>
