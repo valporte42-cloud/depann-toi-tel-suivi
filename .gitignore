@@ -1,0 +1,11 @@
+# Ne pas publier les captures, profils de navigateur ou donnees du PC Maitre
+_preview_profile/
+_preview_*/
+*.png
+*.log
+*.sqlite
+*.db
+*.env
+.env*
+.DS_Store
+node_modules/
